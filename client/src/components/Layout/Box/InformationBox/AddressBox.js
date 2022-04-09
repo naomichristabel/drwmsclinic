@@ -21,7 +21,7 @@ const AddressBox = () => {
                 <i className="fa fa-phone" aria-hidden="true"></i>
               </div>
               <div className="detail-box">
-                <p>Call +91 9841201965</p>
+                <p>Call +01 1234567890</p>
               </div>
             </div>
           </a>
@@ -31,7 +31,7 @@ const AddressBox = () => {
                 <i className="fa fa-envelope" aria-hidden="true"></i>
               </div>
               <div className="detail-box">
-                <p>drwmsclinic@gmail.com</p>
+                <p>demo@gmail.com</p>
               </div>
             </div>
           </a>

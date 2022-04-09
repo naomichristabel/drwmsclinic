@@ -28,9 +28,9 @@ const SmallCardSection = () => {
               content="We understand the value of time and hence you can skip the queue by taking a slot mutually convenient. Avoid the traffic to reach us from the convenience of your home. All that you need is a mobile/tab to see us."
             />
           </div>
-          {/* <div className="btn-box">
+          <div className="btn-box">
             <Link to="/">About the Doctor</Link>
-          </div> */}
+          </div>
         </div>
       </section>
     );

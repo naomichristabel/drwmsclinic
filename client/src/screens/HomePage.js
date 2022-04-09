@@ -11,10 +11,10 @@ const HomePage = () => {
       <div className="main_content">
         <SmallCardSection />
         <AboutSection />
-        {/* <CareSection />
-        <Carousel /> */}
+        <CareSection />
+        <Carousel />
       </div>
-      <br /><br /><br />
+
       <InformationSection />
     </Fragment>
   );

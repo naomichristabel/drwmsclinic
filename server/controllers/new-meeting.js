@@ -44,10 +44,12 @@ const createNewMeeting = (req, res, next) => {
         res.send(JSON.stringify(response));
       })
       .catch((err) => {
+        res.status(err.statusCode).send({message: err.error.message})
         console.error("Zoom new meeting API call failed, reason ", err);
       });
     //res.send(JSON.stringify({join_url: 'https://us05web.zoom.us/j/86960258591?pwd=eXA0K1VuVGxFRWtUdXZ4SXpHTU1LUT09'}))
     } catch (error) {
+      res.status(500).send({message: 'Something went wrong!'})
       next(error);
     }
   };

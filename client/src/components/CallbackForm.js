@@ -21,9 +21,14 @@ const CallbackForm = () => {
   const today = new Date(dateToday.getTime() - (dateToday.getTimezoneOffset() * 60000)).toISOString().slice(0,10)
 
   const getNewZoomMeetingLink = async() => {
-    const response = await fetch('/zoom');
-    const { join_url } = await response.json();
-    setJoinUrl(join_url);
+    await fetch('/zoom')
+    .then(response => response.json())
+    .then(data => {
+      if(data['join_url'])
+        setJoinUrl(data['join_url']);
+      else 
+        alert(data.message);
+    })
   }
 
   useEffect(() => {
@@ -32,7 +37,7 @@ const CallbackForm = () => {
   `Hello ${formData.fullName}, \n 
   Your appointment with Dr.W.M.S.Johnson has been confirmed! \n Please find the details below: \n
   Date: ${formData.appointmentDate}
-  Time: ${formData.slot}
+  Time: ${formData.slot.value}
   Zoom Meeting Joining URL: \n ${joinUrl} \n
   Best wishes,
   Dr WMS Johnson Virtual Clinic team`

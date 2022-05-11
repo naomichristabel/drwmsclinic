@@ -11,7 +11,7 @@ const CallbackForm = () => {
     countryCode: "+91",
     phone: "",
     appointmentDate: "",
-    slot: "",
+    slot: {},
     description: "",
   });
   const [joinUrl, setJoinUrl] = useState('');
@@ -37,7 +37,7 @@ const CallbackForm = () => {
   `Hello ${formData.fullName}, \n 
   Your appointment with Dr.W.M.S.Johnson has been confirmed! \n Please find the details below: \n
   Date: ${formData.appointmentDate}
-  Time: ${formData.slot.value}
+  // Time: ${formData.slot.time}
   Zoom Meeting Joining URL: \n ${joinUrl} \n
   Best wishes,
   Dr WMS Johnson Virtual Clinic team`

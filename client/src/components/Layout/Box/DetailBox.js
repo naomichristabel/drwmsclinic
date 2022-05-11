@@ -10,7 +10,7 @@ const DetailBox = (props) => {
                   <p>
                     {props.content}
                   </p>
-                  {props.button.length !== 0 && <a href="">{props.button}</a>}
+                  {props.button.length !== 0 && <a href="/home">{props.button}</a>}
                 </div>
               </div>
     );

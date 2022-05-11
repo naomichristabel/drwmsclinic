@@ -1,37 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { useNavigate } from 'react-router-dom';
 import CountryTelCode from './CountryTelCode';
-
-const options = [
-  {
-    label: "7PM to 8PM",
-    value: "7PM to 8PM",
-  },
-  {
-    label: "8PM to 9PM",
-    value: "8PM to 9PM",
-  },
-  {
-    label: "9PM to 10PM",
-    value: "9PM to 10PM",
-  },
-];
+import enums from "../enums";
 
 const CallbackForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
-    countryCode: "",
+    countryCode: "+91",
     phone: "",
     appointmentDate: "",
     slot: "",
     description: "",
   });
   const [joinUrl, setJoinUrl] = useState('');
+  const [freeSlots, setFreeSlots] = useState([]);
 
-  let emailBody, response;
+  const dateToday = new Date()
+  const today = new Date(dateToday.getTime() - (dateToday.getTimezoneOffset() * 60000)).toISOString().slice(0,10)
+
+  const getNewZoomMeetingLink = async() => {
+    const response = await fetch('/zoom');
+    const { join_url } = await response.json();
+    setJoinUrl(join_url);
+  }
 
   useEffect(() => {
-  emailBody =
+  if(formData.fullName.length !== 0) {
+  let emailBody =
   `Hello ${formData.fullName}, \n 
   Your appointment with Dr.W.M.S.Johnson has been confirmed! \n Please find the details below: \n
   Date: ${formData.appointmentDate}
@@ -39,32 +36,83 @@ const CallbackForm = () => {
   Zoom Meeting Joining URL: \n ${joinUrl} \n
   Best wishes,
   Dr WMS Johnson Virtual Clinic team`
+
+  sendEmail(emailBody);
+  }
   }, [joinUrl])
 
-  const getNewZoomMeetingLink = async() => {
-    response = await fetch('/zoom');
-    const { join_url } = await response.json();
-    setJoinUrl(join_url);
-  }
-
-  const sendEmail = async() => {
-    response = await fetch('/email', {
+  const sendEmail = async(emailBody) => {
+    await fetch('/email', {
       method: "POST",
       headers: {'Content-type': 'application/json'},
       body: JSON.stringify({ formData, emailBody })
-    });
-    const { message } = await response.json();
-    alert('Appointment details sent!');
+    })
+    .then(response => response.json())
+    .then(data => {
+      if(data.message.includes('Request ID'))
+        bookSlot();
+      else 
+        alert(data.message);
+    })
+    .catch(error => console.log(error))
   }
+
+  const bookSlot = async() => {
+    fetch('/book', {
+      method: "POST",
+      headers: {'Content-type': 'application/json'},
+      body: JSON.stringify({ formData })
+    })
+    .then(response => response.json())
+    .then(data => alert(data.message))
+    .catch(error => console.log(error));
+    
+    navigate('/');
+  }
+
+  const getFreeSlotsForDate = useCallback(async () => {
+    fetch('/slots', {
+      method: "POST",
+      headers: {'Content-type': 'application/json'},
+      body: JSON.stringify({ appointmentDate: formData.appointmentDate })
+    })
+    .then(response => response.json())
+    .then(data => {
+      const bookedSlots = data.map(appointment => appointment.slotID)
+      setFreeSlots(enums.slots.filter(slot => !bookedSlots.includes(slot.id)))
+    })
+    .catch(error => console.log(error));
+  }
+  , [formData.appointmentDate])
+
+  //Once a date has been picked, show only free slots for that date in the dropdown
+  useEffect(() => {
+    if(formData.appointmentDate.length > 0)
+      getFreeSlotsForDate();
+  }, [formData.appointmentDate, getFreeSlotsForDate]);
 
   const changeHandler = (e) => {
+    if(e.target.name === 'slot') {
+      setFormData({ ...formData, 
+                    [e.target.name]: {
+                                      id: e.target.value, 
+                                      time: enums.slots.find(slot => slot.id === e.target.value).value 
+                                    }
+                  })
+    } else {
     setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
   }
-
   const submitHandler = async(e) => {
     e.preventDefault();
-    getNewZoomMeetingLink();
-    sendEmail();
+    
+    //Validate Indian phone number
+    const regexExpPhone = /^[6-9]\d{9}$/gi;
+    if(formData.countryCode === "+91" && !regexExpPhone.test(formData.phone)) {
+      alert('Enter valid phone number!');
+    } else {
+      await getNewZoomMeetingLink();
+    }   
   };
 
   return (
@@ -113,6 +161,7 @@ const CallbackForm = () => {
                 <div>
                   <input
                     type="date"
+                    min={today}
                     name="appointmentDate"
                     onChange={changeHandler}
                     required
@@ -123,10 +172,11 @@ const CallbackForm = () => {
                     id="slots"
                     name="slot"
                     onChange={changeHandler}
+                    required
                   >
-                    <option value="none" selected disabled>Preferred slot</option>
-                    {options.map((option) => (
-                      <option value={option.value} key={option.value}>
+                    <option value="">Preferred slot</option>
+                    {freeSlots.map((option) => (
+                      <option value={option.id} key={option.id}>
                         {option.label}
                       </option>
                     ))}
@@ -161,3 +211,4 @@ const CallbackForm = () => {
 };
 
 export default CallbackForm;
+

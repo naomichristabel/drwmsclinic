@@ -1,0 +1,36 @@
+{
+    "name": "app",
+    "version": "1.0.0",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      
+      "dev": "nodemon index.js",
+      "build": "cd ./../client && npm run build",
+      "install-client": "cd ./../client && npm install",
+      "heroku-postbuild": "npm run install-client && npm run build",
+      "server": "cd server && npm run server && npm run build",
+      "develop": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix client\"",
+      "start": "concurrently --kill-others-on-fail \"npm run server\""
+      
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "@trycourier/courier": "^3.7.0",
+      "concurrently": "^7.1.0",
+      "cors": "^2.8.5",
+      "dotenv": "^16.0.0",
+      "express": "^4.17.3",
+      "jsonwebtoken": "^8.5.1",
+      "mongodb": "^4.4.1",
+      "password-generator": "^2.3.2",
+      "path": "^0.12.7",
+      "request": "^2.88.2",
+      "request-promise": "^4.2.6"
+    },
+    "devDependencies": {
+      "nodemon": "^2.0.15"
+    }
+  }
+  

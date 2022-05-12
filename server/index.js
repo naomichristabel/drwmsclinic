@@ -20,9 +20,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', routes);
 
 // for deployment
-app.use(express.static(path.resolve(__dirname, "./../client/build")));
+app.use(express.static(path.resolve(__dirname, "./client/build")));
 app.get("*", function(request, response) {
-  response.sendFile(path.resolve(__dirname, "./../client/build", "index.html"));
+  response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 })
 
 http.listen(port, () => console.log(`Listening on port ${port}`));

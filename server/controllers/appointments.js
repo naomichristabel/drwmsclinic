@@ -35,7 +35,7 @@ const bookAppointment = async(req, res, next) => {
       slot: slot.time,
       description,
   })
-  .then(() => res.send({message: 'Appointment booked!'}))
+  .then(() => res.send({message: 'Appointment booked! Please check your email!'}))
   } catch (error) {
     res.status(500).send({message: 'Something went wrong! Please try again!'})
     next(error);

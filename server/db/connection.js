@@ -1,7 +1,6 @@
 const { MongoClient } = require('mongodb');
 
 const connectionString = `mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@${process.env.ATLAS_URL}`
-console.log(`mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@${process.env.ATLAS_URL}`)
 const client = new MongoClient(connectionString);
 
 let dbConnection;

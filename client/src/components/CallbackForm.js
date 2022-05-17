@@ -20,6 +20,8 @@ const CallbackForm = () => {
   const dateToday = new Date()
   const today = new Date(dateToday.getTime() - (dateToday.getTimezoneOffset() * 60000)).toISOString().slice(0,10)
 
+  let url;
+
   const getNewZoomMeetingLink = async() => {
     await fetch('/zoom')
     .then(response => response.json())
@@ -33,7 +35,9 @@ const CallbackForm = () => {
 
   useEffect(() => {
   if(formData.fullName.length !== 0) {
-  let emailBody =
+  let email = {
+    recipient: `${enums.recipients[0].name}`,
+    body:
   `Hello ${formData.fullName}, \n 
   Your appointment with Dr.W.M.S.Johnson has been confirmed! \n Please find the details below: \n
   Date: ${formData.appointmentDate}
@@ -41,23 +45,41 @@ const CallbackForm = () => {
   Zoom Meeting Joining URL: \n ${joinUrl} \n
   Best wishes,
   Dr WMS Johnson Virtual Clinic team`
+  }
+  sendEmail(email);
 
-  sendEmail(emailBody);
+  email = {
+    recipient: `${enums.recipients[1].name}`,
+    body:
+  `Hello Dr.W.M.S.Johnson, \n 
+  Your appointment with ${formData.fullName} has been booked! \n Please find the details below: \n
+  Date: ${formData.appointmentDate}
+  Time: ${formData.slot.time}
+  Zoom Meeting Joining URL: \n ${joinUrl} \n
+  Best wishes,
+  Dr WMS Johnson Virtual Clinic team`
+  }
+  sendEmail(email);
   }
   }, [joinUrl])
 
-  const sendEmail = async(emailBody) => {
-    await fetch('/email', {
+  const sendEmail = async(email) => {
+    if(email.recipient === 'patient') 
+      url = '/email/patient';
+    else if(email.recipient === 'doctor') 
+      url = '/email/doctor';
+
+    await fetch(url, {
       method: "POST",
       headers: {'Content-type': 'application/json'},
-      body: JSON.stringify({ formData, emailBody })
+      body: JSON.stringify({ formData, emailBody: email.body })
     })
     .then(response => response.json())
     .then(data => {
-      if(data.message.includes('Request ID'))
-        bookSlot();
-      else 
+      if(!data.message.includes('Request ID'))
         alert(data.message);
+      else if(email.recipient === 'patient') 
+        bookSlot();
     })
     .catch(error => console.log(error))
   }

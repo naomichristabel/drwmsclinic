@@ -8,6 +8,7 @@ const appointmentController = require('../controllers/appointments');
 router.post('/slots', appointmentController.getSlots);
 router.post('/book', appointmentController.bookAppointment);
 router.get('/zoom', newMeetingController.createNewMeeting); 
-router.post('/email', sendEmailController.sendEmail);
+router.post('/email/patient', sendEmailController.sendEmailToPatient);
+router.post('/email/doctor', sendEmailController.sendEmailToDoctor);
 
 module.exports = router; 

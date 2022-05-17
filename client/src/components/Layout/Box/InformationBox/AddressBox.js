@@ -25,7 +25,7 @@ const AddressBox = () => {
               </div>
             </div>
           {/* </a> */}
-          <a href="mailto: drwmsvirtualclinic@gmail.com@gmail.com">
+          <a href="mailto: drwmsvirtualclinic@gmail.com">
             <div className="item ">
               <div className="img-box ">
                 <i className="fa fa-envelope" aria-hidden="true"></i>

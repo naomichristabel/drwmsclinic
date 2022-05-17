@@ -9,7 +9,7 @@ const Nav = () => {
       <nav className="navbar navbar-expand-lg custom_nav-container">
           <Link className="navbar-brand" to="/">
             <span>
-              <img style={{marginTop: '65px', width: '240px'}} className="header-logo-image" src="images/logo.png" alt="wmsjohnson"/>
+              <img style={{marginTop: '65px', width: '240px'}} className="header-logo-image" src="images/Logo.png" alt="wmsjohnson"/>
             </span>
           </Link>
         <div className="" id="">

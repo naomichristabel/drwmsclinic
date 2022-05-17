@@ -3,18 +3,18 @@ const jwt = require("jsonwebtoken");
 
 //credentials for creating zoom meeting
 const payload = {
-    iss: process.env.ZOOM_JWT_API_KEY,
+    iss: `${process.env.ZOOM_JWT_API_KEY}`,
     exp: new Date().getTime() + 5000,
   };
   
-const token = jwt.sign(payload, process.env.ZOOM_JWT_API_SECRET);
+const token = jwt.sign(payload, `${process.env.ZOOM_JWT_API_SECRET}`);
 
 const createNewMeeting = (req, res, next) => {
     try {
   
-      if (!process.env.ZOOM_JWT_API_KEY) {
+      if (!`${process.env.ZOOM_JWT_API_KEY}`) {
         throw new Error("You forgot to set ZOOM_JWT_API_KEY");
-      } else if (!process.env.ZOOM_JWT_API_SECRET) {
+      } else if (!`${process.env.ZOOM_JWT_API_SECRET}`) {
         throw new Error("You forgot to set ZOOM_JWT_API_SECRET");
       }
   

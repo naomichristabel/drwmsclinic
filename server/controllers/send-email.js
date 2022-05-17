@@ -2,12 +2,12 @@ const courierClient = require("@trycourier/courier");
 
 const sendEmail = async(req, res, next) => {
         try {
-          if (!process.env.COURIER_AUTHORIZATION_TOKEN) {
+          if (!`${process.env.COURIER_AUTHORIZATION_TOKEN}`) {
             throw new Error("You forgot to set COURIER_AUTHORIZATION_TOKEN");
           }
       
         const courier = courierClient.CourierClient(
-          { authorizationToken: process.env.COURIER_AUTHORIZATION_TOKEN});
+          { authorizationToken: `${process.env.COURIER_AUTHORIZATION_TOKEN}`});
         
         courier.send({
           message: {

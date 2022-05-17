@@ -31,8 +31,7 @@ const bookAppointment = async(req, res, next) => {
       countryCode,
       phone,
       appointmentDate,
-      slotID: slot.id,
-      slot: slot.time,
+      slot,
       description,
   })
   .then(() => res.send({message: 'Appointment booked! Please check your email!'}))

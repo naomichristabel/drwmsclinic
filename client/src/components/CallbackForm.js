@@ -19,6 +19,7 @@ const CallbackForm = () => {
 
   const dateToday = new Date()
   const today = new Date(dateToday.getTime() - (dateToday.getTimezoneOffset() * 60000)).toISOString().slice(0,10)
+  let currentTime = dateToday.getHours() * 60 + dateToday.getMinutes(); // Minutes since Midnight
 
   let url;
 
@@ -105,8 +106,21 @@ const CallbackForm = () => {
     })
     .then(response => response.json())
     .then(data => {
-      const bookedSlots = data.map(appointment => appointment.slotID)
-      setFreeSlots(enums.slots.filter(slot => !bookedSlots.includes(slot.id)))
+    const bookedSlots = data.map(appointment => appointment.slot.id)
+    const allFreeSlots = enums.slots.filter(slot => !bookedSlots.includes(slot.id))
+    let allFreeSlotsAvailable = [];
+ 
+    allFreeSlots.map(freeSlot => {    
+      const startTime = parseInt(freeSlot._24h.slice(0,2)) * 60 + parseInt(freeSlot._24h.slice(3,5)) // minutes
+      const closeTime = parseInt(freeSlot._24h.slice(9,12)) * 60 + parseInt(freeSlot._24h.slice(12,14))// minutes    
+
+    if(!((currentTime > startTime && currentTime < closeTime) || (currentTime > startTime))){ 
+      allFreeSlotsAvailable.push(freeSlot)
+    } 
+    })
+    
+    if(allFreeSlotsAvailable.length > 0)
+      setFreeSlots(allFreeSlotsAvailable)
     })
     .catch(error => console.log(error));
   }
@@ -123,7 +137,8 @@ const CallbackForm = () => {
       setFormData({ ...formData, 
                     [e.target.name]: {
                                       id: e.target.value, 
-                                      time: enums.slots.find(slot => slot.id === e.target.value).value 
+                                      time: enums.slots.find(slot => slot.id === e.target.value).value,
+                                      _24h: enums.slots.find(slot => slot.id === e.target.value)._24h 
                                     }
                   })
     } else {

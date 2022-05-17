@@ -40,7 +40,8 @@ const CallbackForm = () => {
     recipient: `${enums.recipients[0].name}`,
     body:
   `Hello ${formData.fullName}, \n 
-  Your appointment with Dr.W.M.S.Johnson has been confirmed! \n Please find the details below: \n
+  Your appointment with Dr.W.M.S.Johnson has been confirmed! \n 
+  Please find the details below: \n
   Date: ${formData.appointmentDate}
   Time: ${formData.slot.time}
   Zoom Meeting Joining URL: \n ${joinUrl} \n
@@ -53,7 +54,12 @@ const CallbackForm = () => {
     recipient: `${enums.recipients[1].name}`,
     body:
   `Hello Dr.W.M.S.Johnson, \n 
-  Your appointment with ${formData.fullName} has been booked! \n Please find the details below: \n
+  An appointment has been booked! \n
+  Patient's details: \n
+  Full name:  ${formData.fullName}
+  Phone number: ${formData.countryCode} ${formData.phone}
+  Email: ${formData.email} \n
+  Description: ${formData.description} \n
   Date: ${formData.appointmentDate}
   Time: ${formData.slot.time}
   Zoom Meeting Joining URL: \n ${joinUrl} \n
@@ -73,7 +79,7 @@ const CallbackForm = () => {
     await fetch(url, {
       method: "POST",
       headers: {'Content-type': 'application/json'},
-      body: JSON.stringify({ formData, emailBody: email.body })
+      body: JSON.stringify({ formData, recipient: email.recipient, emailBody: email.body })
     })
     .then(response => response.json())
     .then(data => {

@@ -1,18 +1,11 @@
 import React from "react";
-import ImgBox from "../components/Layout/Box/ImgBox";
-import DetailBox from "../components/Layout/Box/DetailBox";
 
 const NonePage = () => {
   return (
-    <section className="about_section ">
-      <div className="container">
-        <div className="row">
-          <ImgBox image="images/under-construction.jpg" />
-          <DetailBox
-            title="PAGE UNDER CONSTRUCTION"
-            content=""
-            button=""
-          />
+    <section className="service_section layout_padding">
+      <div className="container py_mobile_45">
+        <div className="heading_container heading_center">
+          <h2> Page under construction! </h2>
         </div>
       </div>
     </section>

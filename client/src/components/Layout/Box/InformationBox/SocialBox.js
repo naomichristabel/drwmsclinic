@@ -1,14 +1,20 @@
-import React from 'react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SocialBox = () => {
+  const navigate = useNavigate();
+  const onSubscribeHandler = () => {
+    navigate('/none');
+  }
+
     return (
         <div className="col-md-6 col-lg-3 ">
               <div className="info_form ">
                 <h5>Newsletter</h5>
-                <form action="#">
+                <div>
                   <input type="email" placeholder="Enter your email" />
-                  <button>Subscribe</button>
-                </form>
+                  <button onClick={onSubscribeHandler}>Subscribe</button>
+                </div>
                 <div className="social_box">
                   <a href="http://www.facebook.com">
                     <i className="fa fa-facebook" aria-hidden="true"></i>

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './screens/HomePage';
 import AppointmentPage from './screens/AppointmentPage';
+import NonePage from './screens/NonePage';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import reportWebVitals from './reportWebVitals';
@@ -15,6 +16,7 @@ const app = (
       <Routes>
         <Route exact path='/' element={<HomePage />} />
         <Route path='/appointment' element={<AppointmentPage />} />
+        <Route path='/none' element={<NonePage />} />
       </Routes>
     
       <Footer />

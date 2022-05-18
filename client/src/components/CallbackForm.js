@@ -80,7 +80,7 @@ const CallbackForm = () => {
     .then(data => {
       if(!data.message.includes('Request ID'))
         alert(data.message);
-      else if(email.recipient === 'patient') 
+      else if(email.recipient === enums.recipients.PATIENT) 
         bookSlot();
     })
     .catch(error => console.log(error))

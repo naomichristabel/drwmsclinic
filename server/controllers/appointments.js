@@ -1,5 +1,24 @@
 const connection = require('../db/connection');
 
+const getAppointments = async(req, res, next) => {
+  try {  
+    const db = connection.getDb();
+
+    db
+  .collection("appointments")
+  .find({})
+  .toArray(function (err, result) {
+    if (err) {
+      res.status(400).send("Error fetching slots!");
+   } else {
+      res.json(result);
+    }
+  });
+  } catch (error) {
+    next(error);
+  }
+}
+
 const getSlots = async(req, res, next) => {
   try {  
     const db = connection.getDb();
@@ -41,4 +60,4 @@ const bookAppointment = async(req, res, next) => {
   }
 }
 
-module.exports = { getSlots, bookAppointment };
+module.exports = { getAppointments, getSlots, bookAppointment };

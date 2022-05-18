@@ -30,7 +30,8 @@ const Nav = () => {
           <div id="myNav" className="overlay">
             <div className="overlay-content">
               <Link to="/">Home</Link>
-              <Link to="/appointment">Appointment</Link>
+              <Link to="/appointment">Book an Appointment</Link>
+              <Link to="/appointments">View Appointments</Link>
             </div>
           </div>
         </div>

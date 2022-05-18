@@ -37,7 +37,7 @@ const CallbackForm = () => {
   useEffect(() => {
   if(formData.fullName.length !== 0) {
   let email = {
-    recipient: `${enums.recipients[0].name}`,
+    recipient: `${enums.recipients.PATIENT}`,
     body:
   `Hello ${formData.fullName}, \n 
   Your appointment with Dr.W.M.S.Johnson has been confirmed! \n 
@@ -51,7 +51,7 @@ const CallbackForm = () => {
   sendEmail(email);
 
   email = {
-    recipient: `${enums.recipients[1].name}`,
+    recipient: `${enums.recipients.DOCTOR}`,
     body:
   `Hello Dr.W.M.S.Johnson, \n 
   An appointment has been booked! \n
@@ -71,15 +71,10 @@ const CallbackForm = () => {
   }, [joinUrl])
 
   const sendEmail = async(email) => {
-    if(email.recipient === 'patient') 
-      url = '/email/patient';
-    else if(email.recipient === 'doctor') 
-      url = '/email/doctor';
-
-    await fetch(url, {
+    await fetch('/email', {
       method: "POST",
       headers: {'Content-type': 'application/json'},
-      body: JSON.stringify({ formData, recipient: email.recipient, emailBody: email.body })
+      body: JSON.stringify({ formData, email })
     })
     .then(response => response.json())
     .then(data => {

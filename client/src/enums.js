@@ -1,14 +1,8 @@
 const enums = { 
-    recipients: [
-      {
-        id: '1',
-        name: 'patient'
-      },
-      {
-        id: '2',
-        name: 'doctor'
-      }
-    ],
+    recipients: {
+      PATIENT: 'PATIENT',
+      DOCTOR: 'DOCTOR'
+    },
     slots: [
     {
       id: "7A",

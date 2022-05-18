@@ -19,8 +19,7 @@ const CallbackForm = () => {
 
   const dateToday = new Date()
   const today = new Date(dateToday.getTime() - (dateToday.getTimezoneOffset() * 60000)).toISOString().slice(0,10)
-  let currentTime = dateToday.getHours() * 60 + dateToday.getMinutes(); // Minutes since Midnight
-
+  let currentTime = Date.parse(today);
   let url;
 
   const getNewZoomMeetingLink = async() => {
@@ -112,14 +111,14 @@ const CallbackForm = () => {
     let allFreeSlotsAvailable = [];
  
     allFreeSlots.map(freeSlot => {    
-      const startTime = parseInt(freeSlot._24h.slice(0,2)) * 60 + parseInt(freeSlot._24h.slice(3,5)) // minutes
-      const closeTime = parseInt(freeSlot._24h.slice(9,12)) * 60 + parseInt(freeSlot._24h.slice(12,14))// minutes    
-
-    if(!((currentTime > startTime && currentTime < closeTime) || (currentTime > startTime))){ 
+      const startTime = Date.parse(`${formData.appointmentDate}T${freeSlot._24h.slice(0,2)}:${freeSlot._24h.slice(3,5)}`)
+      const closeTime = Date.parse(`${formData.appointmentDate}T${freeSlot._24h.slice(9,11)}:${freeSlot._24h.slice(12,14)}`)
+   
+    if(((currentTime < startTime) || (currentTime > startTime && currentTime < closeTime))){ 
       allFreeSlotsAvailable.push(freeSlot)
     } 
     })
-    
+   
     if(allFreeSlotsAvailable.length > 0)
       setFreeSlots(allFreeSlotsAvailable)
     })

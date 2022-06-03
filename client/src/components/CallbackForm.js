@@ -14,89 +14,11 @@ const CallbackForm = () => {
     slot: {},
     description: "",
   });
-  const [joinUrl, setJoinUrl] = useState('');
   const [freeSlots, setFreeSlots] = useState([]);
 
-  const dateToday = new Date()
+  const dateToday = new Date();
   const today = new Date(dateToday.getTime() - (dateToday.getTimezoneOffset() * 60000)).toISOString().slice(0,10)
-  let currentTime = Date.parse(today);
-  let url;
-
-  const getNewZoomMeetingLink = async() => {
-    await fetch('/zoom')
-    .then(response => response.json())
-    .then(data => {
-      if(data['join_url'])
-        setJoinUrl(data['join_url']);
-      else 
-        alert(data.message);
-    })
-  }
-
-  useEffect(() => {
-  if(formData.fullName.length !== 0) {
-  let email = {
-    recipient: `${enums.recipients.PATIENT}`,
-    body:
-  `Hello ${formData.fullName}, \n 
-  Your appointment with Dr.W.M.S.Johnson has been confirmed! \n 
-  Please find the details below: \n
-  Date: ${formData.appointmentDate}
-  Time: ${formData.slot.time}
-  Zoom Meeting Joining URL: \n ${joinUrl} \n
-  Best wishes,
-  Dr WMS Johnson Virtual Clinic team`
-  }
-  sendEmail(email);
-
-  email = {
-    recipient: `${enums.recipients.DOCTOR}`,
-    body:
-  `Hello Dr.W.M.S.Johnson, \n 
-  An appointment has been booked! \n
-  Patient's details: \n
-  Full name:  ${formData.fullName}
-  Phone number: ${formData.countryCode} ${formData.phone}
-  Email: ${formData.email} \n
-  Description: ${formData.description} \n
-  Date: ${formData.appointmentDate}
-  Time: ${formData.slot.time}
-  Zoom Meeting Joining URL: \n ${joinUrl} \n
-  Best wishes,
-  Dr WMS Johnson Virtual Clinic team`
-  }
-  sendEmail(email);
-  }
-  }, [joinUrl])
-
-  const sendEmail = async(email) => {
-    await fetch('/email', {
-      method: "POST",
-      headers: {'Content-type': 'application/json'},
-      body: JSON.stringify({ formData, email })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if(!data.message.includes('Request ID'))
-        alert(data.message);
-      else if(email.recipient === enums.recipients.PATIENT) 
-        bookSlot();
-    })
-    .catch(error => console.log(error))
-  }
-
-  const bookSlot = async() => {
-    fetch('/book', {
-      method: "POST",
-      headers: {'Content-type': 'application/json'},
-      body: JSON.stringify({ formData })
-    })
-    .then(response => response.json())
-    .then(data => alert(data.message))
-    .catch(error => console.log(error));
-    
-    navigate('/');
-  }
+  let currentTime = Date.parse(dateToday);
 
   const getFreeSlotsForDate = useCallback(async () => {
     fetch('/slots', {
@@ -113,7 +35,7 @@ const CallbackForm = () => {
     allFreeSlots.map(freeSlot => {    
       const startTime = Date.parse(`${formData.appointmentDate}T${freeSlot._24h.slice(0,2)}:${freeSlot._24h.slice(3,5)}`)
       const closeTime = Date.parse(`${formData.appointmentDate}T${freeSlot._24h.slice(9,11)}:${freeSlot._24h.slice(12,14)}`)
-   
+
     if(((currentTime < startTime) || (currentTime > startTime && currentTime < closeTime))){ 
       allFreeSlotsAvailable.push(freeSlot)
     } 
@@ -153,7 +75,8 @@ const CallbackForm = () => {
     if(formData.countryCode === "+91" && !regexExpPhone.test(formData.phone)) {
       alert('Enter valid phone number!');
     } else {
-      await getNewZoomMeetingLink();
+      localStorage.setItem('formData',JSON.stringify(formData));
+      navigate('/pay');
     }   
   };
 
@@ -234,7 +157,7 @@ const CallbackForm = () => {
                   />
                 </div>
                 <div className="d-flex ">
-                  <button type="submit">BOOK</button>
+                  <button type="submit">Proceed to pay</button>
                 </div>
               </form>
             </div>

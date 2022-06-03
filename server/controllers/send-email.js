@@ -30,7 +30,7 @@ const sendEmail = async(req, res, next) => {
     }
   }).then(response => res.send({message: `Email has been queued: (Request ID: ${response.requestId})`}))
     .catch(err => res.status(err.response.status).send({message: err.response.data.type}))
-//res.send({message: 'Email sent...'})
+//res.send({message: 'Email sent... Request ID: xxxxx'})
 } catch (error) {
     res.status(500).send({message: 'Something went wrong!'})
     next(error);

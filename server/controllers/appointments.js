@@ -3,10 +3,14 @@ const connection = require('../db/connection');
 const getAppointments = async(req, res, next) => {
   try {  
     const db = connection.getDb();
-
+   
+    const dateToday = new Date();
+    const today = new Date(dateToday.getTime() - (dateToday.getTimezoneOffset() * 60000)).toISOString().slice(0,10)
+ 
     db
   .collection("appointments")
-  .find({})
+  .find({ appointmentDate: { $gte : today } })
+  .sort({ appointmentDate: 1, slot: 1  })
   .toArray(function (err, result) {
     if (err) {
       res.status(400).send("Error fetching slots!");

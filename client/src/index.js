@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './screens/HomePage';
 import AppointmentsPage from './screens/AppointmentsPage';
 import AppointmentPage from './screens/AppointmentPage';
+import PayPage from './screens/PayPage';
+import ConfirmPage from './screens/ConfirmPage';
 import NonePage from './screens/NonePage';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -18,6 +20,8 @@ const app = (
         <Route exact path='/' element={<HomePage />} />
         <Route path='/appointments' element={<AppointmentsPage />} />
         <Route path='/appointment' element={<AppointmentPage />} />
+        <Route path='/pay' element={<PayPage />} />
+        <Route path='/confirm' element={<ConfirmPage />} />
         <Route path='/none' element={<NonePage />} />
       </Routes>
     

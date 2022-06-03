@@ -5,7 +5,8 @@ const getAppointments = async(req, res, next) => {
     const db = connection.getDb();
    
     const dateToday = new Date();
-    const today = new Date(dateToday.getTime() - (dateToday.getTimezoneOffset() * 60000)).toISOString().slice(0,10)
+    const dateTodayIndia = new Date(dateToday.getTime() - (dateToday.getTimezoneOffset() * 60000)).toISOString();
+    const today = dateTodayIndia.slice(0,10);
  
     db
   .collection("appointments")

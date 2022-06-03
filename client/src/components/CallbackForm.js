@@ -34,8 +34,7 @@ const CallbackForm = () => {
  
     allFreeSlots.map(freeSlot => {    
       const startTime = Date.parse(`${formData.appointmentDate}T${freeSlot._24h.slice(0,2)}:${freeSlot._24h.slice(3,5)}`)
-      const closeTime = Date.parse(`${formData.appointmentDate}T${freeSlot._24h.slice(9,11)}:${freeSlot._24h.slice(12,14)}`)
-
+      
     if(currentTime < startTime){ 
       allFreeSlotsAvailable.push(freeSlot)
     } 

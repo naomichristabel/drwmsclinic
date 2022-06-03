@@ -5,8 +5,6 @@ const AppointmentsPage = () => {
 
     const [appointmentsData, setAppointmentsData] = useState([]);
 
-    //const changed = localStorage.getItem('changed');
-
     const getAppointments = async() => {
       fetch('/appointments', {
         method: "GET",
@@ -19,21 +17,9 @@ const AppointmentsPage = () => {
 
       useEffect(() => {
         (async () => {
-          console.log('inside useEffect getting appointments')
           await getAppointments();
         })()    
       }, [])
-
-      
-      // useEffect(() => {
-      //   (async () => {
-      //     if (changed === 'yes') {
-      //       console.log('changed')
-      //       await getAppointments();
-      //       localStorage.setItem('changed','no')
-      //     }
-      //   })()    
-      // }, [changed])
 
     if(appointmentsData && appointmentsData.length > 0) {
         return <AppointmentsTable appointmentsData={appointmentsData}/>

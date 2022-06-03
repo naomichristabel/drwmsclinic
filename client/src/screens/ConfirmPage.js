@@ -51,8 +51,10 @@ const ConfirmPage = () => {
         localStorage.removeItem('formData');
       }
 
-    useEffect(async() => {
-        await getNewZoomMeetingLink();
+    useEffect(() => {
+        (async () => {
+          await getNewZoomMeetingLink();
+        })()
     }, []);
 
     useEffect(() => {

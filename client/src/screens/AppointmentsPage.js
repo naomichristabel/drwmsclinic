@@ -15,9 +15,11 @@ const AppointmentsPage = () => {
       .catch(error => console.log(error));
     }
 
-      useEffect(async() => {
+      useEffect(() => {
+        (async () => {
           await getAppointments();
-      }, [appointmentsData])
+        })()    
+      }, [])
 
     if(appointmentsData && appointmentsData.length > 0) {
         return <AppointmentsTable appointmentsData={appointmentsData}/>

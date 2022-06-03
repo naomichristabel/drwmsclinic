@@ -5,17 +5,17 @@ const AppointmentsPage = () => {
 
     const [appointmentsData, setAppointmentsData] = useState([]);
 
-    const getAppointments = async() => {
-        fetch('/appointments', {
-          method: "GET",
-          headers: {'Content-type': 'application/json'},
-        })
-        .then(response => response.json())
-        .then(data => setAppointmentsData(data))
-        .catch(error => console.log(error));
-      }
-
       useEffect(() => {
+        const getAppointments = async() => {
+          fetch('/appointments', {
+            method: "GET",
+            headers: {'Content-type': 'application/json'},
+          })
+          .then(response => response.json())
+          .then(data => setAppointmentsData(data))
+          .catch(error => console.log(error));
+        }
+
           getAppointments();
       }, [])
 

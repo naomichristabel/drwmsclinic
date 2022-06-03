@@ -47,6 +47,7 @@ const ConfirmPage = () => {
         .then(data => alert(data.message))
         .catch(error => console.log(error));
         
+        //localStorage.setItem('changed','yes');
         navigate('/appointments');
         localStorage.removeItem('formData');
       }

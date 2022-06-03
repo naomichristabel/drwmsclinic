@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 const PayPage = () => {
 
-    useEffect(() => {
+  const paymentButton = async () => {
         const Script = document.createElement('script');
         const Form = document.getElementById('payForm');
         Script.setAttribute('src','https://checkout.razorpay.com/v1/payment-button.js')
@@ -13,6 +13,9 @@ const PayPage = () => {
         //test button redirect to localhost
         //Script.setAttribute('data-payment_button_id','pl_Jd0vqHpEaeB2Qq')
         
+        //prod button to localhost
+        //Script.setAttribute('data-payment_button_id','pl_Jd4CqPo9cTmv5R')
+
         //prod button to prod website
         Script.setAttribute('data-payment_button_id','pl_Jcw8qjXhqDSb76')
         
@@ -21,6 +24,12 @@ const PayPage = () => {
       return () => {
           Form.removeChild(Script);
         }
+  }
+
+    useEffect(() => {
+      (async () => {
+        await paymentButton();
+      })()    
       }, []);
 
   return (

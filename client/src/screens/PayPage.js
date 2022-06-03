@@ -8,13 +8,13 @@ const PayPage = () => {
         Script.setAttribute('src','https://checkout.razorpay.com/v1/payment-button.js')
         
         //test button redirect to prod website
-        Script.setAttribute('data-payment_button_id','pl_Jd11rjogQSLTDq')
+        //Script.setAttribute('data-payment_button_id','pl_Jd11rjogQSLTDq')
        
         //test button redirect to localhost
         //Script.setAttribute('data-payment_button_id','pl_Jd0vqHpEaeB2Qq')
         
         //prod button to prod website
-        //Script.setAttribute('data-payment_button_id','pl_Jcw8qjXhqDSb76')
+        Script.setAttribute('data-payment_button_id','pl_Jcw8qjXhqDSb76')
         
         Script.async = true;
         Form.appendChild(Script);

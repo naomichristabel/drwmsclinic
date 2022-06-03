@@ -17,11 +17,13 @@ const AppointmentsPage = () => {
 
       useEffect(async() => {
           await getAppointments();
-      }, [])
+      }, [appointmentsData])
 
     if(appointmentsData && appointmentsData.length > 0) {
         return <AppointmentsTable appointmentsData={appointmentsData}/>
     }
+
+    return null;
       
 };
 

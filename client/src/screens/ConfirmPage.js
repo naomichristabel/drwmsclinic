@@ -47,7 +47,7 @@ const ConfirmPage = () => {
         .then(data => alert(data.message))
         .catch(error => console.log(error));
         
-        navigate('https://dr-johnson.herokuapp,com/appointments');
+        navigate('/appointments');
         localStorage.removeItem('formData');
       }
 

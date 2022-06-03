@@ -5,21 +5,21 @@ const AppointmentsPage = () => {
 
     const [appointmentsData, setAppointmentsData] = useState([]);
 
-      useEffect(() => {
-        const getAppointments = async() => {
-          fetch('/appointments', {
-            method: "GET",
-            headers: {'Content-type': 'application/json'},
-          })
-          .then(response => response.json())
-          .then(data => setAppointmentsData(data))
-          .catch(error => console.log(error));
-        }
+    const getAppointments = async() => {
+      fetch('/appointments', {
+        method: "GET",
+        headers: {'Content-type': 'application/json'},
+      })
+      .then(response => response.json())
+      .then(data => setAppointmentsData(data))
+      .catch(error => console.log(error));
+    }
 
-          getAppointments();
+      useEffect(async() => {
+          await getAppointments();
       }, [])
 
-    if(appointmentsData) {
+    if(appointmentsData && appointmentsData.length > 0) {
         return <AppointmentsTable appointmentsData={appointmentsData}/>
     }
       

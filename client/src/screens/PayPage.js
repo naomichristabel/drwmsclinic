@@ -6,7 +6,8 @@ const PayPage = () => {
         const Script = document.createElement('script');
         const Form = document.getElementById('payForm');
         Script.setAttribute('src','https://checkout.razorpay.com/v1/payment-button.js')
-        Script.setAttribute('data-payment_button_id','pl_Jcw8qjXhqDSb76')
+        Script.setAttribute('data-payment_button_id','pl_Jd11rjogQSLTDq')
+        //Script.setAttribute('data-payment_button_id','pl_Jd0vqHpEaeB2Qq')
         Script.async = true;
         Form.appendChild(Script);
       return () => {

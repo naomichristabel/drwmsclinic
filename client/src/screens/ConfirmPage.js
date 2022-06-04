@@ -1,12 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import enums from "../enums";
 
 const ConfirmPage = () => {
-    const navigate = useNavigate();
 
     const [joinUrl, setJoinUrl] = useState('');
+    const [confirm, setConfirm] = useState(true);
 
     const formData = JSON.parse(localStorage.getItem('formData'));
 
@@ -47,7 +47,6 @@ const ConfirmPage = () => {
         .then(data => alert(data.message))
         .catch(error => console.log(error));
         
-        navigate('/appointments');
         localStorage.removeItem('formData');
       }
 
@@ -71,6 +70,7 @@ const ConfirmPage = () => {
         Best wishes,
         Dr WMS Johnson Virtual Clinic team`
         }
+        setConfirm(true);
         sendEmail(email);
       
         email = {
@@ -92,12 +92,30 @@ const ConfirmPage = () => {
         sendEmail(email);
         }
         }, [joinUrl])
-
+      
   return (
     <section className="service_section layout_padding">
       <div className="container py_mobile_45">
         <div className="heading_container heading_center">
-          <h2> Appointment Confirmation </h2>
+          {confirm && 
+            <>
+            <h2>{formData && `Hi ${formData.fullName}!`}</h2>
+
+            <h4>Your appointment is confirmed!</h4>
+
+            <h4>{formData && `Date: ${formData.appointmentDate}`}</h4>
+            <h4>{formData && `Time: ${formData.slot.time}`}</h4>
+            <Link to={joinUrl}>Zoom meeting link</Link>
+            <h5>{joinUrl}</h5>
+           
+            <div className="slider_section">
+              <div className="detail-box">
+                <Link to='/appointments'>View upcoming appointments</Link>
+              </div>
+            </div>
+           
+            </>
+            }
         </div>
       </div>
     </section>

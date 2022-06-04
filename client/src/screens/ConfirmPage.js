@@ -44,7 +44,7 @@ const ConfirmPage = () => {
           body: JSON.stringify({ formData })
         })
         .then(response => response.json())
-        .then(data => alert(data.message))
+        .then(data => console.log(data.message))
         .catch(error => console.log(error));
         
         localStorage.removeItem('formData');
@@ -101,10 +101,21 @@ const ConfirmPage = () => {
             <>
             <h2>{formData && `Hi ${formData.fullName}!`}</h2>
 
-            <h4>Your appointment is confirmed!</h4>
+            <br/>
+
+            <h3>Your appointment is confirmed!</h3>
+
+            <br/>
+
+            <h4><strong>(Please check your email...)</strong></h4>
+
+            <br/>
 
             <h4>{formData && `Date: ${formData.appointmentDate}`}</h4>
             <h4>{formData && `Time: ${formData.slot.time}`}</h4>
+
+            <br/>
+
             <Link to={joinUrl}>Zoom meeting link</Link>
             <h5>{joinUrl}</h5>
            
